@@ -1,0 +1,61 @@
+<html>
+<head>
+
+</head>
+<body>
+
+	<button type="button" id="teste" onclick="loadJson()">Teste</button>
+	<h1>Lista</h1>
+	<div id="id01"></div>
+
+	<script type="text/javascript">
+
+		function testBrowser() {
+
+			var objAjax;
+
+			if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+				objAjax = new XMLHttpRequest();
+				//alert("Mozilla, Safari, ...");
+			} else if (window.ActiveXObject) { // IE 8 and older
+				objAjax = new ActiveXObject("Microsoft.XMLHTTP");
+				//alert("Windows");
+			}
+
+			return objAjax;
+		};
+
+		function loadJson() {
+			var objetoAjax = testBrowser();
+			objetoAjax.onreadystatechange = function() {
+				if (objetoAjax.readyState == 4 && objetoAjax.status == 200) {
+					dadosJson(objetoAjax.responseText);
+				}
+			};
+			objetoAjax.open("GET", "http://jsonplaceholder.typicode.com/posts", true);
+			objetoAjax.send(null);
+		};
+
+		function dadosJson(response){
+			var arrayDados = JSON.parse(response);
+			var i;
+			var out = "<table>";
+
+			for(i = 0; i < arrayDados.length; i++) {
+				out += "<tr><td>" +
+				arrayDados[i].userId +
+				"</td><td>" +
+				arrayDados[i].id +
+				"</td><td>" +
+				arrayDados[i].title +
+				"</td></tr>";
+			}
+
+			out += "</table>";
+			document.getElementById("id01").innerHTML = out;
+		};
+
+
+	</script>
+</body>
+</html>
